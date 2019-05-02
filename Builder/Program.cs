@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using static System.Console;
 
 namespace Builder
@@ -21,8 +19,8 @@ namespace Builder
 
         public HtmlElement(string name, string text)
         {
-            Name = name ?? throw new ArgumentNullException(paramName: nameof(name));
-            Text = text ?? throw new ArgumentNullException(paramName: nameof(text));
+            Name = name  ?? throw new ArgumentNullException(paramName: nameof(name));
+            Text = text  ?? throw new ArgumentNullException(paramName: nameof(text));
         }
 
         private string ToStringImpl(int indent)
@@ -61,10 +59,18 @@ namespace Builder
             root.Name = rootName;
         }
 
-        public void AddChild(string childName, string childText)
+        //public void AddChild(string childName, string childText)
+        //{
+        //    var e = new HtmlElement(childName, childText);
+        //    root.Elements.Add(e);
+        //}
+
+        //fluent Builder
+        public HtmlBuilder AddChild(string childName, string childText)
         {
             var e = new HtmlElement(childName, childText);
             root.Elements.Add(e);
+            return this;
         }
 
         public override string ToString()
@@ -105,8 +111,10 @@ namespace Builder
             //using HTML builder
             WriteLine("\nUSING HtmlBuilder:");
             var builder = new HtmlBuilder("ul");
-            builder.AddChild("li", "Hello");
-            builder.AddChild("li", "World");
+            //builder.AddChild("li", "Hello");
+            //builder.AddChild("li", "World");
+            //Fluent Builder --> it is called Fluent interface
+            builder.AddChild("li", "Hello").AddChild("li", "World");
             WriteLine(builder); //=== WriteLine(builder.ToString());
 
         }
